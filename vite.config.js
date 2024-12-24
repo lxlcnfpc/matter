@@ -5,6 +5,7 @@ import path from 'path'
 export default defineConfig({
   plugins: [react()],
   base: '/matter/',
+  root: '.',
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
@@ -14,7 +15,6 @@ export default defineConfig({
     sourcemap: true,
     outDir: 'dist',
     assetsDir: 'assets',
-    // Add this to ensure clean builds
     emptyOutDir: true,
     rollupOptions: {
       input: {
