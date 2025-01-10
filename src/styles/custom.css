@@ -1,0 +1,77 @@
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.lesson-card {
+  animation: fadeIn 0.5s ease-out forwards;
+  animation-delay: calc(var(--animation-order) * 100ms);
+  opacity: 0;
+}
+
+/* Add custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+/* Hero section styles */
+.hero-pattern {
+  background-color: #ffffff;
+  background-image: radial-gradient(#3b82f6 0.5px, #ffffff 0.5px);
+  background-size: 10px 10px;
+}
+
+/* Logo container styles */
+.logo-container {
+  position: relative;
+  display: inline-block;
+}
+
+.logo-container::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #3b82f6, transparent);
+}
+
+/* Card hover effects */
+.card-hover {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Background gradient overlay */
+.bg-gradient-overlay {
+  background: linear-gradient(
+    to bottom right,
+    rgba(255, 255, 255, 0.9),
+    rgba(255, 255, 255, 0.7)
+  );
+}

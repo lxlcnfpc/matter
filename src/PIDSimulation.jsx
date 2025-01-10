@@ -207,23 +207,47 @@ const PIDSimulation = () => {
                 <label className="block text-sm font-medium mb-2">
                   Integral Gain (Ki): {ki.toFixed(2)}
                 </label>
-                <Slider
-                  defaultValue={[ki]}
-                  max={0.5}
-                  step={0.01}
-                  onValueChange={([value]) => setKi(value)}
-                />
+                <div className="flex gap-4">
+                  <Slider
+                    className="flex-1"
+                    defaultValue={[ki]}
+                    max={1}
+                    step={0.01}
+                    onValueChange={([value]) => setKi(value)}
+                  />
+                  <Input
+                    type="number"
+                    value={ki}
+                    onChange={(e) => setKi(Number(e.target.value))}
+                    className="w-40"
+                    min={0}
+                    max={1}
+                    step={0.01}
+                  />
+                </div>
               </div>
               <div>
                 <label className="block text-sm font-medium mb-2">
                   Derivative Gain (Kd): {kd.toFixed(2)}
                 </label>
-                <Slider
-                  defaultValue={[kd]}
-                  max={0.2}
-                  step={0.01}
-                  onValueChange={([value]) => setKd(value)}
-                />
+                <div className="flex gap-4">
+                  <Slider
+                    className="flex-1"
+                    defaultValue={[kd]}
+                    max={0.4}
+                    step={0.01}
+                    onValueChange={([value]) => setKd(value)}
+                  />
+                   <Input
+                    type="number"
+                    value={kd}
+                    onChange={(e) => setKd(Number(e.target.value))}
+                    className="w-40"
+                    min={0}
+                    max={0.4}
+                    step={0.01}
+                  />
+                </div>
               </div>
             </div>
 
@@ -248,7 +272,7 @@ const PIDSimulation = () => {
                 <Slider
                   defaultValue={[simulationSpeed]}
                   min={0.1}
-                  max={20}
+                  max={30}
                   step={0.1}
                   onValueChange={([value]) => setSimulationSpeed(value)}
                 />
@@ -299,10 +323,15 @@ const PIDSimulation = () => {
                       angle: -90, 
                       position: 'insideLeft' 
                     }} 
-                    domain={[0, 90]}
+                    domain={[0, 100]}
                   />
                   <Tooltip />
-                  <Legend />
+                  <Legend 
+                    layout="horizontal"
+                    verticalAlign="bottom"
+                    align="center"
+                    wrapperStyle={{ paddingTop: "20px"}}
+                  />
                   <Line 
                     type="monotone" 
                     dataKey="setpoint" 

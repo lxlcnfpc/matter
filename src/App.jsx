@@ -1,18 +1,22 @@
 import { useState } from 'react'
 import './styles/globals.css'
-import PIDSimulation from './PIDSimulation'
-
-const getBaseUrl = () => {
-  return import.meta.env.BASE_URL || '/'
-}
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import HomePage from './HomePage'
+import LearningPlatform from './LearningPlatform'
 
 function App() {
   return (
-    <div className="min-h-screen bg-background">
-      <main className="w-full">
-        <PIDSimulation />
-      </main>
-    </div>
+    <Router basename="/matter">
+      <div className="min-h-screen bg-background">
+        <main className="w-full">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/control-theory" element={<LearningPlatform />} />
+            {/* Add more routes here as new lessons are created */}
+          </Routes>
+        </main>
+      </div>
+    </Router>
   )
 }
 
