@@ -145,13 +145,15 @@ const PIDSimulation = () => {
         let lastErrorValue = lastError;
         let newValvePosition = 0;
 
+        const effectiveTimeStep = timeStep / numSteps; // Scale the timestep
+
         for (let j = 0; j < numSteps; j++) {
           const error = setpoint - currentPV;
 
           // PID calculations
           const p = kp * error;
-          const d = (kd * (error - lastErrorValue)) / timeStep;
-          const i = integralValue + ki * error * timeStep;
+          const d = (kd * (error - lastErrorValue)) / effectiveTimeStep;
+          const i = integralValue + ki * error * effectiveTimeStep;
 
           // Anti-windup: Only update integral if not saturated
           if (i < 0 - (p + d)) {
