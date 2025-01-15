@@ -145,17 +145,24 @@ const PIDSimulation = () => {
         let lastErrorValue = lastError;
         let newValvePosition = 0;
 
-        for (let i = 0; i < numSteps; i++) {
+        for (let j = 0; j < numSteps; j++) {
           const error = setpoint - currentPV;
 
           // PID calculations
           const p = kp * error;
           const d = (kd * (error - lastErrorValue)) / timeStep;
+          const i = integralValue + ki * error * timeStep;
 
-          // Anti-windup logic
-          if (p + d > 0 && p + d < 100) {
-            integralValue += ki * error * timeStep;
+          // Anti-windup: Only update integral if not saturated
+          if (i < 0 - (p + d)) {
+            i = 0 - (p + d);
           }
+          if (i > 100 - (p + d)) {
+            i = 100 - (p + d);
+          }
+
+          integralValue = i;
+
           lastErrorValue = error;
 
           // Calculate valve position
