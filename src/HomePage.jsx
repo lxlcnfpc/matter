@@ -1,7 +1,16 @@
 import React from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Link } from "react-router-dom";
-import { Book, Activity, Settings, Cpu } from "lucide-react";
+import {
+  Book,
+  Activity,
+  Settings,
+  Cpu,
+  Pickaxe,
+  ChartColumn,
+  Bot,
+  ChevronsLeftRightEllipsis,
+} from "lucide-react";
 import logoImage from "@/assets/lxl_logo.png";
 
 const LessonCard = ({
@@ -79,12 +88,7 @@ const HomePage = () => {
   ];
 
   return (
-    <div
-      className="min-h-screen bg-cover bg-center bg-fixed"
-      style={{
-        backgroundImage: 'url("/bg-pattern.png")',
-      }}
-    >
+    <div className="min-h-screen bg-cover bg-center bg-fixed">
       {/* Semi-transparent overlay */}
       <div className="min-h-screen bg-white/40 backdrop-blur-sm py-8 px-4">
         {/* Logo and Header Section */}
