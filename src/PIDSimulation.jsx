@@ -81,28 +81,26 @@ const PIDSimulation = () => {
 
     // Calculate individual PID terms
     const p = kp * error;
-    const i = integral + ki * error * timeStep;
     const d = (kd * (error - lastError)) / timeStep;
+
+    let newIntegral = integral + ki * error * timeStep;
 
     // Calculate preliminary output without new integral term
     const pd = p + d;
 
     // Anti-windup: Only update integral if not saturated
-    if (i < 0 - pd) {
+    if (newIntegral < 0 - pd) {
       i = 0 - pd;
     }
-    if (i > 100 - pd) {
+    if (newIntegral > 100 - pd) {
       i = 100 - pd;
     }
 
-    setIntegral(i);
-
+    setIntegral(newIntegral);
     setLastError(error);
 
     // Calculate the control value y and clamp to 0% .. 100%
-    const cvy = Math.max(0, Math.min(100, p + i + d));
-
-    return cvy;
+    return Math.max(0, Math.min(100, p + newIntegral + d));
   };
 
   // Process model simulation
@@ -131,21 +129,19 @@ const PIDSimulation = () => {
     let intervalId;
 
     if (isRunning) {
-      // Fixed display update interval (50ms)
-      const displayInterval = 50;
+      const displayInterval = 50; // 50ms display update interval
 
       intervalId = setInterval(() => {
         // Calculate number of physics steps to maintain accuracy
         const numSteps = Math.max(1, Math.round(simulationSpeed));
+        const effectiveTimeStep = timeStep / numSteps; // Scale the timestep
 
         // Run multiple small steps for physics accuracy
         let currentPV = processValue;
         let currentTime = time;
-        let integralValue = integral;
+        let currentIntegral = integral;
         let lastErrorValue = lastError;
         let newValvePosition = 0;
-
-        const effectiveTimeStep = timeStep / numSteps; // Scale the timestep
 
         for (let j = 0; j < numSteps; j++) {
           const error = setpoint - currentPV;
@@ -153,22 +149,24 @@ const PIDSimulation = () => {
           // PID calculations
           const p = kp * error;
           const d = (kd * (error - lastErrorValue)) / effectiveTimeStep;
-          const i = integralValue + ki * error * effectiveTimeStep;
+          let newIntegral = currentIntegral + ki * error * effectiveTimeStep;
 
           // Anti-windup: Only update integral if not saturated
-          if (i < 0 - (p + d)) {
-            i = 0 - (p + d);
+          if (newIntegral < 0 - (p + d)) {
+            newIntegral = 0 - (p + d);
           }
-          if (i > 100 - (p + d)) {
-            i = 100 - (p + d);
+          if (newIntegral > 100 - (p + d)) {
+            newIntegral = 100 - (p + d);
           }
 
-          integralValue = i;
-
+          currentIntegral = newIntegral;
           lastErrorValue = error;
 
           // Calculate valve position
-          newValvePosition = Math.max(0, Math.min(100, p + integralValue + d));
+          newValvePosition = Math.max(
+            0,
+            Math.min(100, p + currentIntegral + d)
+          );
 
           // Update process with original timestep
           const steamFlow = (newValvePosition / 100) * MAX_STEAM_FLOW;
@@ -180,10 +178,11 @@ const PIDSimulation = () => {
             HEAT_TRANSFER_COEFFICIENT * (currentPV - AMBIENT_TEMPERATURE);
           const netHeatTransfer = heatTransferSteam - heatLoss;
           const temperatureChange =
-            (netHeatTransfer / (WATER_MASS * WATER_SPECIFIC_HEAT)) * timeStep;
+            (netHeatTransfer / (WATER_MASS * WATER_SPECIFIC_HEAT)) *
+            effectiveTimeStep;
 
           currentPV += temperatureChange;
-          currentTime += timeStep;
+          currentTime += effectiveTimeStep;
         }
 
         // Batch state updates after all steps
