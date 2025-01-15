@@ -75,34 +75,6 @@ const PIDSimulation = () => {
     document.body.removeChild(link);
   };
 
-  // PID calculation with proper anti-windup
-  const calculatePID = (pv) => {
-    const error = setpoint - pv;
-
-    // Calculate individual PID terms
-    const p = kp * error;
-    const d = (kd * (error - lastError)) / timeStep;
-
-    let newIntegral = integral + ki * error * timeStep;
-
-    // Calculate preliminary output without new integral term
-    const pd = p + d;
-
-    // Anti-windup: Only update integral if not saturated
-    if (newIntegral < 0 - pd) {
-      i = 0 - pd;
-    }
-    if (newIntegral > 100 - pd) {
-      i = 100 - pd;
-    }
-
-    setIntegral(newIntegral);
-    setLastError(error);
-
-    // Calculate the control value y and clamp to 0% .. 100%
-    return Math.max(0, Math.min(100, p + newIntegral + d));
-  };
-
   // Process model simulation
   const updateProcess = (valvePosition) => {
     // Steam flow based on valve position (0-100%)
@@ -132,9 +104,12 @@ const PIDSimulation = () => {
       const displayInterval = 50; // 50ms display update interval
 
       intervalId = setInterval(() => {
+        // Total time advancement represents real physical time
+        const totalTimeAdvancement = timeStep * simulationSpeed;
+
         // Calculate number of physics steps to maintain accuracy
         const numSteps = Math.max(1, Math.round(simulationSpeed));
-        const effectiveTimeStep = timeStep / numSteps; // Scale the timestep
+        const effectiveTimeStep = totalTimeAdvancement / numSteps; // Scale the timestep
 
         // Run multiple small steps for physics accuracy
         let currentPV = processValue;
