@@ -188,7 +188,7 @@ const PIDSimulation = () => {
         // Batch state updates after all steps
         setProcessValue(currentPV);
         setTime(currentTime);
-        setIntegral(integralValue);
+        setIntegral(currentIntegral);
         setLastError(lastErrorValue);
 
         // Update history
