@@ -48,7 +48,7 @@ const HomePage = () => {
     {
       title: "Industrial Data Mining",
       description: "Discover knowledge in databases with statistics and AI.",
-      icon: Cpu,
+      icon: Pickaxe,
       path: "/digital-logic",
       comingSoon: true,
     },
@@ -56,7 +56,7 @@ const HomePage = () => {
       title: "Design of Experiments",
       description:
         "Design and execute powerful experiments to understand what factors contribute the most to product quality.",
-      icon: Activity,
+      icon: ChartColumn,
       path: "/signal-processing",
       comingSoon: true,
     },
@@ -64,7 +64,7 @@ const HomePage = () => {
       title: "Industrial Robotics",
       description:
         "Get to know the basics of employing robots in a production environment.",
-      icon: Book,
+      icon: Bot,
       path: "/ml-basics",
       comingSoon: true,
     },
@@ -72,7 +72,7 @@ const HomePage = () => {
       title: "IO-Link",
       description:
         "Explore the possibilities of this useful communication interface for industrial applications.",
-      icon: Book,
+      icon: ChevronsLeftRightEllipsis,
       path: "/ml-basics",
       comingSoon: true,
     },
