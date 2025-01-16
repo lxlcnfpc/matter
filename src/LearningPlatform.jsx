@@ -6,6 +6,8 @@ import ManualSimulation from './ManualSimulation';
 import { Check } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
+import ctrl_loop from './assets/ctrl_loop.png';
+
 const LearningPlatform = () => {
   const [completedSections, setCompletedSections] = useState(new Set());
 
@@ -68,13 +70,20 @@ const LearningPlatform = () => {
                 in our homes to cruise control in cars.</p>
                 
                 <h3 className="text-xl font-semibold mt-6">Key Concepts</h3>
+                <p>For a detailed explanation please refer to the course documents.
+                On this page, we will only highlight the most relevant elements.
+                Let's have a look at the basic control loop structure and its corresponding components. </p>
+                <img className="mt-8 mb-8" src={ctrl_loop} alt="Control Loop Diagram"/>
                 <ul className="list-disc pl-6 space-y-2">
-                  <li>Process Variable (PV): The quantity we want to control</li>
-                  <li>Setpoint (SP): The desired value of the process variable</li>
-                  <li>Control Variable (CV): The quantity we can adjust to affect the process</li>
-                  <li>Error: The difference between setpoint and process variable</li>
+                  <li>Process Variable (or Output) [x]: The quantity we want to control (which is this output of our process)</li>
+                  <li>Setpoint [w]: The desired value of the process variable</li>
+                  <li>Control Variable (or Control Signal) [y]: The quantity we can adjust to affect the process</li>
+                  <li>Error [e = w - x]: The difference between setpoint [w] and process variable [x]</li>
                 </ul>
-
+                <h3 className="text-xl font-semibold">Brewing Process</h3>
+                <p>Control theory is the study of dynamical systems and how to manipulate their behavior. 
+                in our homes to cruise control in cars.</p>
+                
                 <div className="bg-blue-50 p-4 rounded-lg my-6">
                   <h4 className="text-lg font-semibold text-blue-800">Manual Control Exercise</h4>
                   <p>Try to maintain a constant temperature manually by adjusting the valve position.
