@@ -9,9 +9,9 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import { Card, CardHeader, CardTitle, CardContent } from "./components/ui/card";
-import { Slider } from "./components/ui/slider";
-import { Input } from "./components/ui/input";
+import { Card, CardHeader, CardTitle, CardContent } from "../ui/card";
+import { Slider } from "../ui/slider";
+import { Input } from "../ui/input";
 
 const PIDSimulation = () => {
   // Physical constants remain unchanged

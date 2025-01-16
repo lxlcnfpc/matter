@@ -20,21 +20,20 @@ const ManualSimulation = () => {
   const [time, setTime] = useState(0);
   const [history, setHistory] = useState([]);
   const [isRunning, setIsRunning] = useState(false);
-  const [score, setScore] = useState(100);
+  const [score, setScore] = useState(targetTemp - AMBIENT_TEMPERATURE);
   const [feedback, setFeedback] = useState('');
 
   // Score tracking
   const updateScore = (currentTemp) => {
     const error = Math.abs(targetTemp - currentTemp);
     if (error > 5) {
-      setScore(prev => Math.max(0, prev - 0.1)); // Lose points faster when far from target
       setFeedback('Temperature is far from target - adjust the valve!');
     } else if (error > 2) {
-      setScore(prev => Math.max(0, prev - 0.05));
       setFeedback('Getting closer, but needs fine-tuning');
     } else {
       setFeedback('Good control! Maintaining temperature well');
     }
+    setScore(error);
   };
 
   useEffect(() => {
@@ -55,8 +54,8 @@ const ManualSimulation = () => {
         const netHeatTransfer = heatTransferSteam - heatLoss;
         
         // Update temperature
-        const temperatureChange = (netHeatTransfer / (WATER_MASS * WATER_SPECIFIC_HEAT)) * timeStep;
-        const newTemp = temperature + temperatureChange;
+        const temperatureChange =(netHeatTransfer / (WATER_MASS * WATER_SPECIFIC_HEAT)) * timeStep;
+        const newTemp = Math.min(100, (temperature + temperatureChange));
         
         setTemperature(newTemp);
         setTime(prev => prev + timeStep);
@@ -79,14 +78,6 @@ const ManualSimulation = () => {
 
   return (
     <div className="space-y-6">
-      <div className="bg-blue-50 border-l-4 border-blue-500 p-4 mb-4">
-        <h3 className="text-lg font-medium text-blue-800 mb-2">Challenge</h3>
-        <p className="text-blue-700">
-          Try to maintain a temperature of {targetTemp}°C by manually adjusting the valve position.
-          Your score starts at 100 and decreases when the temperature deviates from the target.
-        </p>
-      </div>
-
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-medium mb-2">
@@ -102,7 +93,7 @@ const ManualSimulation = () => {
           />
         </div>
         <div className="flex flex-col justify-center">
-          <div className="text-lg font-semibold">Score: {Math.round(score)}</div>
+          <div className="text-lg font-semibold">Error (e): {Math.round(score)} °C</div>
           <div className="text-sm text-gray-600">{feedback}</div>
         </div>
       </div>

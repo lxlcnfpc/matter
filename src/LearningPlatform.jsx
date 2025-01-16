@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import PIDSimulation from './PIDSimulation';
-import ManualSimulation from './ManualSimulation';
+import PIDSimulation from './components/control/PIDSimulation';
+import ManualSimulation from './components/control/ManualSimulation';
+import MatchingGame from './components/control/MatchingGame.jsx';
 import { Check } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 import ctrl_loop from './assets/ctrl_loop.png';
-
+import brewing_pid from './assets/brewing_pid.png'; 
 const LearningPlatform = () => {
   const [completedSections, setCompletedSections] = useState(new Set());
 
@@ -74,16 +75,35 @@ const LearningPlatform = () => {
                 On this page, we will only highlight the most relevant elements.
                 Let's have a look at the basic control loop structure and its corresponding components. </p>
                 <img className="mt-8 mb-8" src={ctrl_loop} alt="Control Loop Diagram"/>
+                <p>
                 <ul className="list-disc pl-6 space-y-2">
                   <li>Process Variable (or Output) [x]: The quantity we want to control (which is this output of our process)</li>
                   <li>Setpoint [w]: The desired value of the process variable</li>
                   <li>Control Variable (or Control Signal) [y]: The quantity we can adjust to affect the process</li>
                   <li>Error [e = w - x]: The difference between setpoint [w] and process variable [x]</li>
                 </ul>
-                <h3 className="text-xl font-semibold">Brewing Process</h3>
-                <p>Control theory is the study of dynamical systems and how to manipulate their behavior. 
-                in our homes to cruise control in cars.</p>
-                
+                </p>
+
+                <h3 className="text-xl font-semibold mt-6">Brewing Process</h3>
+                <p>Here you can see a simplified representation of the P&ID for the brewing stage in our ice tea production line</p>
+                <img className="mt-8 mb-8" src={brewing_pid} alt="P&ID of Brewing Process"/>
+                <p>The water in the brewing tank is heated with hot steam. 
+                The steam flow can be controlled with the control valve 001.
+                Depending on the receipe, the tea needs to be brewed with a different temperature.
+                A temperature which is too high, can lead to a bitter taset.
+                A temperature which is too low can lead to a diminished extraction, resulting in a lack of flavor.
+                </p>
+
+                <div className="bg-blue-50 p-4 rounded-lg my-6">
+                  <h4 className="text-lg font-semibold text-blue-800">Practice Exercise: Match the Variables</h4>
+                  <p className="mb-4">Match each theoretical control variable with its corresponding element in our brewing process:</p>
+                  <MatchingGame />
+                </div>
+
+                <p> In order to control the temperature, we can open or close the control valve for the steam.
+                Our goal is to find the best valve position at each moment, so that the desired temperature is reached quickly and remains stable during the process.
+                </p>
+
                 <div className="bg-blue-50 p-4 rounded-lg my-6">
                   <h4 className="text-lg font-semibold text-blue-800">Manual Control Exercise</h4>
                   <p>Try to maintain a constant temperature manually by adjusting the valve position.
