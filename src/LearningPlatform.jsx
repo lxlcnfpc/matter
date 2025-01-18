@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
+import 'katex/dist/katex.min.css';
+import { InlineMath, BlockMath } from 'react-katex';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import PIDSimulation from './components/control/PIDSimulation';
-import ManualSimulation from './components/control/ManualSimulation';
-import MatchingGame from './components/control/MatchingGame.jsx';
 import { Check } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import PIDSimulation from './components/control/PIDSimulation';
+import PSimulation from './components/control/PSimulation';
+import ManualSimulation from './components/control/ManualSimulation';
+import MatchingGame from './components/control/MatchingGame.jsx';
 
 import ctrl_loop from './assets/ctrl_loop.png';
 import brewing_pid from './assets/brewing_pid.png'; 
@@ -101,8 +104,7 @@ const LearningPlatform = () => {
                 </div>
 
                 <p> In order to control the temperature, we can open or close the control valve for the steam.
-                Our goal is to find the best valve position at each moment, so that the desired temperature is reached quickly and remains stable during the process.
-                </p>
+                Our goal is to find the best valve position at each moment, so that the desired temperature is reached quickly and remains stable during the process.</p>
 
                 <div className="bg-blue-50 p-4 rounded-lg my-6">
                   <h4 className="text-lg font-semibold text-blue-800">Manual Control Exercise</h4>
@@ -152,12 +154,104 @@ const LearningPlatform = () => {
                     </ul>
                   </div>
                 </div>
+                <h3 className="text-xl font-semibold mt-6">Introduction to P-Control</h3>
+                <p>The simplest form of automated control is proportional (P) control. Let's understand how it works using our brewing system as an example.</p>
 
+                <div className="bg-gray-50 p-4 rounded-lg my-4">
+                <h4 className="font-semibold">Basic Principle</h4>
+                <p>In P-control, we adjust the control variable (valve position) proportionally to the error:</p>
+                <div className="mt-2 p-2 bg-white rounded border">
+                  <code>Valve Position = Kp × (Setpoint Temperature - Current Temperature)</code>
+                </div>
+                <p className="mt-2">Where:</p>
+                <ul className="list-disc pl-6 space-y-1">
+                  <li>Kp is the proportional gain (our tuning parameter)</li>
+                  <li>Error is the difference between where we want to be (setpoint) and where we are (current temperature)</li>
+                </ul>
+                </div>
+
+                <h4 className="font-semibold mt-6">How P-Control Works</h4>
+                <div className="space-y-3">
+                <p>Let's break down how P-control operates in our brewing system:</p>
+
+                <ol className="list-decimal pl-6 space-y-3">
+                  <li>
+                    <strong>Large Error:</strong> When the temperature is far below the setpoint, we have a large error:
+                    <ul className="list-disc pl-6 mt-1">
+                      <li>For example, if we want 75°C but we're at 25°C, error = 50°C</li>
+                      <li>With Kp = 2, valve position = 2 × 50 = 100% (fully open)</li>
+                    </ul>
+                  </li>
+                  
+                  <li>
+                    <strong>Medium Error:</strong> As we get closer to the setpoint, the error decreases:
+                    <ul className="list-disc pl-6 mt-1">
+                      <li>If we're at 65°C wanting 75°C, error = 10°C</li>
+                      <li>With Kp = 2, valve position = 2 × 10 = 20% open</li>
+                    </ul>
+                  </li>
+                  
+                  <li>
+                    <strong>Small Error:</strong> Near the setpoint, we make small adjustments:
+                    <ul className="list-disc pl-6 mt-1">
+                      <li>At 73°C wanting 75°C, error = 2°C</li>
+                      <li>With Kp = 2, valve position = 2 × 2 = 4% open</li>
+                    </ul>
+                  </li>
+                </ol>
+                </div>
+
+                <h4 className="font-semibold mt-6">Limitations of P-Control</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
+                <div className="border p-4 rounded">
+                  <h5 className="font-semibold text-red-600">The Challenge of Steady State</h5>
+                  <p>P-control often can't reach the exact setpoint because:</p>
+                  <ul className="list-disc pl-6 space-y-1">
+                    <li>Some valve opening is needed just to maintain temperature</li>
+                    <li>If we reach setpoint, error = 0, so valve closes completely</li>
+                    <li>This leads to a persistent offset (steady-state error)</li>
+                  </ul>
+                </div>
+
+                <div className="border p-4 rounded">
+                  <h5 className="font-semibold text-orange-600">The Stability Trade-off</h5>
+                  <p>Choosing Kp involves a balance:</p>
+                  <ul className="list-disc pl-6 space-y-1">
+                    <li>Higher Kp = Faster response but more oscillation</li>
+                    <li>Lower Kp = Stable but slow response</li>
+                    <li>No single value solves both problems</li>
+                  </ul>
+                </div>
+                </div>
+
+                <div className="bg-yellow-50 p-4 rounded-lg my-6">
+                <h4 className="text-lg font-semibold text-yellow-800">Think About It</h4>
+                <p>Before moving to the simulation, consider:</p>
+                <ul className="list-disc pl-6 space-y-2">
+                  <li>What happens if we make changes to Kp?</li>
+                  <li>Why can't we solve the steady-state error by just increasing Kp?</li>
+                  <li>How might the system behave differently if we're cooling instead of heating?</li>
+                </ul>
+                </div>
                 <div className="bg-blue-50 p-4 rounded-lg my-6">
                   <h4 className="text-lg font-semibold text-blue-800">Feedback Exercise</h4>
-                  <p>Try adjusting the setpoint in our simulation. Notice how the system automatically 
-                  responds to changes and disturbances - this is closed-loop control in action:</p>
-                  <PIDSimulation />
+                  <p>Below is a simulation of P-control in action.
+                    The model had been adapted to simulate the actual behavior of the brewing station in our plant. 
+                    To make the simulation usable, you can increase the simulation speed.
+                    Try to answer the following questions: </p>
+                  <ul className="list-disc pl-6 space-y-2">
+                    <li>What happens if we adjust the setpoint during the simulation?</li>
+                    <li>What happens if we make Kp very small (e.g., Kp = 0.1)?</li>
+                    <li>What happens if we make Kp very large (e.g., Kp = 10)?</li>
+                    <li>Why can't we solve the steady-state error by just increasing Kp?</li>
+                  </ul>
+                  <PSimulation />
+                </div>
+                <div className="bg-yellow-50 p-4 rounded-lg my-6">
+                <h4 className="text-lg font-semibold text-yellow-800">Test it</h4>
+                <p>Try to find a setting for Kp which makes sense to you. Note how long it takes with this setting for the temperature to be within 2°C of the target tempertaure.
+                  Note the duration, the Kp value and setpoint. 
+                  We will try to improve this during the next sections.</p>
                 </div>
               </div>
 
@@ -214,7 +308,93 @@ const LearningPlatform = () => {
                     </ul>
                   </div>
                 </div>
+                <h3 className="text-xl font-semibold mt-6">Mathematical Foundation</h3>
+                <p>The PID controller combines three terms to generate the control signal. Let's examine each component mathematically:</p>
+ 
+                  <div className="bg-gray-50 p-4 rounded-lg">
+                    <h4 className="font-semibold">The Complete PID Equation</h4>
+                    <p className="mb-2">The control signal u(t) is calculated as:</p>
+                    <div className="text-center my-2">
+                      <BlockMath math={`u(t) = K_p e(t) + K_i \\int_0^t e(\\tau) d\\tau + K_d \\frac{d}{dt}e(t)`} />
+                    </div>
+                    <p className="mt-2">Where <InlineMath math="e(t)" /> is the error at time t, defined as <InlineMath math="e(t) = \text{setpoint} - \text{measured value}" /></p>
+                  </div>
 
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="border p-4 rounded">
+                      <h4 className="font-semibold">Proportional Term</h4>
+                      <div className="text-center my-2">
+                        <BlockMath math="u_P(t) = K_p e(t)" />
+                      </div>
+                      <p className="mt-2">This term creates an immediate response proportional to the current error. Think of it as a spring: the further from setpoint, the stronger the correction.</p>
+                    </div>
+
+                    <div className="border p-4 rounded">
+                      <h4 className="font-semibold">Integral Term</h4>
+                      <div className="text-center my-2">
+                        <BlockMath math="u_I(t) = K_i \int_0^t e(\tau) d\tau" />
+                      </div>
+                      <p className="mt-2">This term sums up all past errors. It's like having a memory of past deviations, ensuring we eventually reach our target.</p>
+                    </div>
+
+                    <div className="border p-4 rounded">
+                      <h4 className="font-semibold">Derivative Term</h4>
+                      <div className="text-center my-2">
+                        <BlockMath math="u_D(t) = K_d \frac{d}{dt}e(t)" />
+                      </div>
+                      <p className="mt-2">This term responds to the rate of change. It's like having a brake that activates when we're changing too quickly.</p>
+                    </div>
+                  </div>
+
+                  <div className="bg-blue-50 p-4 rounded-lg">
+                    <h4 className="font-semibold">Digital Implementation</h4>
+                    <p>In practice, we use discrete approximations:</p>
+                    <ul className="list-disc pl-6 space-y-2 mt-2">
+                      <li>The integral becomes a sum: <InlineMath math="\sum_{k=0}^n e(k)\cdot dt" /></li>
+                      <li>The derivative becomes a difference: <InlineMath math="\frac{e(t) - e(t-dt)}{dt}" /></li>
+                      <li>Where <InlineMath math="dt" /> is our sampling time interval</li>
+                    </ul>
+                  </div>                 
+                 
+                  <div className="bg-yellow-50 p-4 rounded-lg">
+                    <h4 className="font-semibold">Practical Considerations</h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+                      <div>
+                        <h5 className="font-semibold">Integral Windup</h5>
+                        <p>When actuators saturate (like our valve being fully open), the integral term can grow excessively large. Solutions include:</p>
+                        <ul className="list-disc pl-6">
+                          <li>Clamping the integral term</li>
+                          <li>Back-calculation methods</li>
+                          <li>Conditional integration</li>
+                        </ul>
+                      </div>
+                      <div>
+                        <h5 className="font-semibold">Derivative Kick</h5>
+                        <p>Large setpoint changes can cause derivative spikes. Common fixes:</p>
+                        <ul className="list-disc pl-6">
+                          <li>Derivative on measurement</li>
+                          <li>Setpoint filtering</li>
+                          <li>Two-degree-of-freedom control</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-green-50 p-4 rounded-lg">
+                    <h4 className="font-semibold">Real-World Effects</h4>
+                    <p>The theoretical equations assume ideal conditions. In reality, we must consider:</p>
+                    <ul className="list-disc pl-6 space-y-2">
+                      <li>
+                        <strong>Measurement Noise:</strong> Can be amplified by derivative action, requiring filtering
+                      </li>
+                      <li>
+                        <strong>Process Delays:</strong> Time between control action and observable effect
+                      </li>
+                      <li>
+                        <strong>System Dynamics:</strong> Non-linear behavior, especially at operation limits
+                      </li>
+                    </ul>
+                  </div>
                 <div className="bg-blue-50 p-4 rounded-lg my-6">
                   <h4 className="text-lg font-semibold text-blue-800">Component Testing</h4>
                   <p>Experiment with each component individually:</p>
@@ -244,6 +424,15 @@ const LearningPlatform = () => {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="prose max-w-none">
+                <div className="bg-yellow-50 p-4 rounded-lg my-6">
+                  <h4 className="text-lg font-semibold text-yellow-800">Think About It</h4>
+                  <p>Before continuing with this section note down your thoughts to the following questions:</p>
+                  <ul className="list-disc pl-6 space-y-2">
+                    <li>Would it be advantageous, reaching the setpoint fast in the beginnig? Why or why not?</li>
+                    <li>What could be the consequences of an overshoot of the brewing temperature with regards to quality and cost?</li>
+                    <li>What difference of setpoint and output could be tolerable? What would be the implications of a larger error?</li>
+                  </ul>
+                </div>
                 <h3 className="text-xl font-semibold">Performance Metrics</h3>
                 <ul className="list-disc pl-6 space-y-2">
                   <li>Rise Time: Time to reach near setpoint</li>
@@ -251,7 +440,107 @@ const LearningPlatform = () => {
                   <li>Settling Time: Time to stay within error band</li>
                   <li>Steady-State Error: Persistent offset from setpoint</li>
                 </ul>
+                <div className="bg-white p-4 rounded-lg border my-6">
+                <h3 className="text-xl font-semibold">Why Performance Metrics Matter</h3>
+                <p className="mt-2">
+                  In tea production, the way our temperature control system performs directly impacts both product quality and operational costs. Let's understand these connections:
+                </p>
 
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                  <div className="space-y-3">
+                    <h4 className="font-semibold text-green-700">Product Quality Impact</h4>
+                    <ul className="list-disc pl-6 space-y-2">
+                      <li>
+                        <strong>Rise Time:</strong> Slow heating means longer batch times and inconsistent tea strength between batches. Too fast can lead to temperature overshooting and bitter taste.
+                      </li>
+                      <li>
+                        <strong>Overshoot:</strong> Temperature spikes above target can release unwanted bitter compounds from tea leaves, affecting taste and aroma.
+                      </li>
+                      <li>
+                        <strong>Settling Time:</strong> Long settling times create temperature fluctuations during the critical brewing phase, leading to inconsistent extraction and varying product quality.
+                      </li>
+                      <li>
+                        <strong>Steady-State Error:</strong> Constant temperature offset means every batch is brewed slightly off-recipe, creating product inconsistency across production runs.
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div className="space-y-3">
+                    <h4 className="font-semibold text-blue-700">Production Cost Impact</h4>
+                    <ul className="list-disc pl-6 space-y-2">
+                      <li>
+                        <strong>Energy Usage:</strong> Poor control can lead to:
+                        <ul className="list-disc pl-6 mt-1">
+                          <li>Excessive steam consumption during overshoots</li>
+                          <li>Energy waste from constant corrections</li>
+                          <li>Higher utility costs per batch</li>
+                        </ul>
+                      </li>
+                      <li>
+                        <strong>Production Time:</strong> Impact on throughput:
+                        <ul className="list-disc pl-6 mt-1">
+                          <li>Longer rise times reduce daily production capacity</li>
+                          <li>Extended settling times increase batch duration</li>
+                          <li>Higher labor costs per production unit</li>
+                        </ul>
+                      </li>
+                      <li>
+                        <strong>Product Waste:</strong> Poor control can result in:
+                        <ul className="list-disc pl-6 mt-1">
+                          <li>Off-spec batches requiring rework</li>
+                          <li>Product disposal in severe cases</li>
+                          <li>Raw material waste</li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div className="bg-gray-50 p-4 rounded-lg mt-6">
+                  <h4 className="font-semibold">Finding the Right Balance</h4>
+                  <p className="mt-2">
+                    Optimizing controller performance requires balancing multiple factors:
+                  </p>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+                    <div className="border p-3 rounded bg-white">
+                      <h5 className="font-semibold text-purple-700">Speed vs. Stability</h5>
+                      <p className="text-sm mt-1">
+                        Faster response typically means more aggressive control, risking overshoots and oscillations. Too conservative means longer production times.
+                      </p>
+                    </div>
+                    <div className="border p-3 rounded bg-white">
+                      <h5 className="font-semibold text-purple-700">Precision vs. Energy</h5>
+                      <p className="text-sm mt-1">
+                        Maintaining very tight temperature control requires more frequent valve adjustments, potentially increasing steam consumption and valve wear.
+                      </p>
+                    </div>
+                    <div className="border p-3 rounded bg-white">
+                      <h5 className="font-semibold text-purple-700">Robustness vs. Performance</h5>
+                      <p className="text-sm mt-1">
+                        More robust control handles disturbances better but might be slower to reach targets. Aggressive tuning improves performance but risks instability.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-yellow-50 p-4 rounded-lg mt-6">
+                  <h4 className="font-semibold">Real-World Considerations</h4>
+                  <ul className="list-disc pl-6 space-y-2 mt-2">
+                    <li>
+                      <strong>Different Products, Different Needs:</strong> Green tea might require more precise temperature control than black tea due to its sensitivity to temperature variations.
+                    </li>
+                    <li>
+                      <strong>Seasonal Variations:</strong> Controller performance might need adjustment based on incoming water temperature or ambient conditions.
+                    </li>
+                    <li>
+                      <strong>Equipment Aging:</strong> Valve response characteristics can change over time, requiring periodic retuning.
+                    </li>
+                    <li>
+                      <strong>Production Schedule:</strong> Different performance priorities might apply during peak production versus low-demand periods.
+                    </li>
+                  </ul>
+                </div>
+                </div>
                 <h3 className="text-xl font-semibold mt-6">Basic Tuning Guidelines</h3>
                 <div className="bg-gray-50 p-4 rounded-lg">
                   <ol className="list-decimal pl-6 space-y-2">
