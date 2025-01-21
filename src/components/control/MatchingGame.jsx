@@ -61,7 +61,7 @@ const MatchingGame = () => {
           <Card key={variable.id} className="relative">
             <CardContent className="p-4">
               <div className="flex items-start gap-4">
-                <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center font-semibold">
+                <div className="w-8 h-8 mt-2 rounded-full bg-blue-100 flex items-center justify-center font-semibold">
                   {variable.id}
                 </div>
                 <div>

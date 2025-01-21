@@ -163,7 +163,7 @@ const LearningPlatform = () => {
                 <h3 className="text-xl font-semibold mt-6">Introduction to P-Control</h3>
                 <p>The simplest form of automated control is proportional (P) control. Let's understand how it works using our brewing system as an example.</p>
 
-                <div className="bg-gray-50 p-4 rounded-lg my-4">
+                <div className="bg-gray-100 p-4 rounded-lg my-4">
                 <h4 className="font-semibold">Basic Principle</h4>
                 <p>In P-control, we adjust the control variable (valve position) proportionally to the error:</p>
                 <div className="mt-2 p-2 bg-white rounded border">
@@ -210,7 +210,7 @@ const LearningPlatform = () => {
                 <h4 className="font-semibold mt-6">Limitations of P-Control</h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
                 <div className="border p-4 rounded">
-                  <h5 className="font-semibold text-red-600">The Challenge of Steady State</h5>
+                  <h5 className="font-semibold text-purple-700">The Challenge of Steady State</h5>
                   <p>P-control often can't reach the exact setpoint because:</p>
                   <ul className="list-disc pl-6 space-y-1">
                     <li>Some valve opening is needed just to maintain temperature</li>
@@ -220,7 +220,7 @@ const LearningPlatform = () => {
                 </div>
 
                 <div className="border p-4 rounded">
-                  <h5 className="font-semibold text-orange-600">The Stability Trade-off</h5>
+                  <h5 className="font-semibold text-purple-700">The Stability Trade-off</h5>
                   <p>Choosing Kp involves a balance:</p>
                   <ul className="list-disc pl-6 space-y-1">
                     <li>Higher Kp = Faster response but more oscillation</li>
@@ -230,6 +230,7 @@ const LearningPlatform = () => {
                 </div>
                 </div>
 
+                <h3 className="text-xl font-semibold mt-6">Try it for yourself</h3>
                 <div className="bg-yellow-50 p-4 rounded-lg my-6">
                 <h4 className="text-lg font-semibold text-yellow-800">Think About It</h4>
                 <p>Before moving to the simulation, consider:</p>
@@ -352,7 +353,7 @@ const LearningPlatform = () => {
                     </div>
                   </div>
 
-                  <div className="bg-blue-50 p-4 rounded-lg">
+                  <div className="bg-gray-100 p-4 rounded-lg mt-4">
                     <h4 className="font-semibold">Digital Implementation</h4>
                     <p>In practice, we use discrete approximations:</p>
                     <ul className="list-disc pl-6 space-y-2 mt-2">
@@ -362,10 +363,10 @@ const LearningPlatform = () => {
                     </ul>
                   </div>                 
                  
-                  <div className="bg-yellow-50 p-4 rounded-lg">
+                  <div className="bg-gray-100 p-4 rounded-lg mt-4">
                     <h4 className="font-semibold">Practical Considerations</h4>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
-                      <div>
+                      <div className="border p-4 rounded bg-white">
                         <h5 className="font-semibold">Integral Windup</h5>
                         <p>When actuators saturate (like our valve being fully open), the integral term can grow excessively large. Solutions include:</p>
                         <ul className="list-disc pl-6">
@@ -374,7 +375,7 @@ const LearningPlatform = () => {
                           <li>Conditional integration</li>
                         </ul>
                       </div>
-                      <div>
+                      <div className="border p-4 rounded bg-white">
                         <h5 className="font-semibold">Derivative Kick</h5>
                         <p>Large setpoint changes can cause derivative spikes. Common fixes:</p>
                         <ul className="list-disc pl-6">
@@ -385,8 +386,7 @@ const LearningPlatform = () => {
                       </div>
                     </div>
                   </div>
-
-                  <div className="bg-green-50 p-4 rounded-lg">
+                  <div className="bg-green-50 p-4 rounded-lg mt-4">
                     <h4 className="font-semibold">Real-World Effects</h4>
                     <p>The theoretical equations assume ideal conditions. In reality, we must consider:</p>
                     <ul className="list-disc pl-6 space-y-2">
@@ -401,6 +401,7 @@ const LearningPlatform = () => {
                       </li>
                     </ul>
                   </div>
+                <h3 className="text-xl font-semibold mt-6">Try it for yourself</h3>
                 <div className="bg-blue-50 p-4 rounded-lg my-6">
                   <h4 className="text-lg font-semibold text-blue-800">Component Testing</h4>
                   <p>Experiment with each component individually:</p>
@@ -430,6 +431,7 @@ const LearningPlatform = () => {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="prose max-w-none">
+                <h3 className="text-xl font-semibold mt-6">Understanding Performance</h3>
                 <div className="bg-yellow-50 p-4 rounded-lg my-6">
                   <h4 className="text-lg font-semibold text-yellow-800">Think About It</h4>
                   <p>Before continuing with this section note down your thoughts to the following questions:</p>
@@ -447,7 +449,7 @@ const LearningPlatform = () => {
                   <li>Steady-State Error: Persistent offset from setpoint</li>
                 </ul>
                 <div className="bg-white p-4 rounded-lg border my-6">
-                <h3 className="text-xl font-semibold">Why Performance Metrics Matter</h3>
+                <h4 className="font-semibold">Why performance metrics matter</h4>
                 <p className="mt-2">
                   In tea production, the way our temperature control system performs directly impacts both product quality and operational costs. Let's understand these connections:
                 </p>
