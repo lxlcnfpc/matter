@@ -41,25 +41,31 @@ const LearningPlatform = () => {
         </CardContent>
       </Card>
 
-      <Tabs defaultValue="basics" className="space-y-4">
-        <TabsList className="grid w-full grid-cols-2 lg:grid-cols-4">
-          <TabsTrigger value="basics" className="flex items-center gap-2">
-            Fundamentals
-            {completedSections.has('basics') && <Check className="h-4 w-4" />}
-          </TabsTrigger>
-          <TabsTrigger value="loops" className="flex items-center gap-2">
-            Control Loops
-            {completedSections.has('loops') && <Check className="h-4 w-4" />}
-          </TabsTrigger>
-          <TabsTrigger value="pid" className="flex items-center gap-2">
-            PID Control
-            {completedSections.has('pid') && <Check className="h-4 w-4" />}
-          </TabsTrigger>
-          <TabsTrigger value="tuning" className="flex items-center gap-2">
-            Tuning & Metrics
-            {completedSections.has('tuning') && <Check className="h-4 w-4" />}
-          </TabsTrigger>
-        </TabsList>
+      <Tabs defaultValue="basics" className="space-y-8">
+        <div className="min-h-[88px]">
+          <TabsList className="grid w-full grid-cols-3 gap-4 lg:grid-cols-4 xl:grid-cols-5">
+            <TabsTrigger value="basics" className="flex items-center gap-2">
+              Fundamentals
+              {completedSections.has('basics') && <Check className="h-4 w-4" />}
+            </TabsTrigger>
+            <TabsTrigger value="loops" className="flex items-center gap-2">
+              Control Loops
+              {completedSections.has('loops') && <Check className="h-4 w-4" />}
+            </TabsTrigger>
+            <TabsTrigger value="pid" className="flex items-center gap-2">
+              PID Control
+              {completedSections.has('pid') && <Check className="h-4 w-4" />}
+            </TabsTrigger>
+            <TabsTrigger value="metrics" className="flex items-center gap-2">
+              Metrics
+              {completedSections.has('metrics') && <Check className="h-4 w-4" />}
+            </TabsTrigger>
+            <TabsTrigger value="challenge" className="flex items-center gap-2">
+              Control Challenge 
+              {completedSections.has('challenge') && <Check className="h-4 w-4" />}
+            </TabsTrigger>
+          </TabsList>
+        </div>
 
         <TabsContent value="basics">
           <Card>
@@ -417,10 +423,10 @@ const LearningPlatform = () => {
           </Card>
         </TabsContent>
 
-        <TabsContent value="tuning">
+        <TabsContent value="metrics">
           <Card>
             <CardHeader>
-              <CardTitle>Controller Performance & Tuning</CardTitle>
+              <CardTitle>Metrics</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="prose max-w-none">
@@ -451,7 +457,8 @@ const LearningPlatform = () => {
                     <h4 className="font-semibold text-green-700">Product Quality Impact</h4>
                     <ul className="list-disc pl-6 space-y-2">
                       <li>
-                        <strong>Rise Time:</strong> Slow heating means longer batch times and inconsistent tea strength between batches. Too fast can lead to temperature overshooting and bitter taste.
+                        <strong>Rise Time:</strong> Slow heating means longer batch times and inconsistent tea strength between batches.
+                        Too fast can lead to temperature overshooting and bitter taste.
                       </li>
                       <li>
                         <strong>Overshoot:</strong> Temperature spikes above target can release unwanted bitter compounds from tea leaves, affecting taste and aroma.
@@ -481,15 +488,14 @@ const LearningPlatform = () => {
                         <ul className="list-disc pl-6 mt-1">
                           <li>Longer rise times reduce daily production capacity</li>
                           <li>Extended settling times increase batch duration</li>
-                          <li>Higher labor costs per production unit</li>
                         </ul>
                       </li>
                       <li>
                         <strong>Product Waste:</strong> Poor control can result in:
                         <ul className="list-disc pl-6 mt-1">
-                          <li>Off-spec batches requiring rework</li>
-                          <li>Product disposal in severe cases</li>
+                          <li>Off-spec batches requiring rework or disposal</li>
                           <li>Raw material waste</li>
+                          <li>Higher wear of actuators and increased maintenance requirements</li>
                         </ul>
                       </li>
                     </ul>
@@ -541,6 +547,32 @@ const LearningPlatform = () => {
                   </ul>
                 </div>
                 </div>
+                <h3 className="text-xl font-semibold mt-6">Measuring the performance of our system</h3>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <p>Since our goal is to improve the temperature control of the brewing tank, we first need to evaluate the current base performance.
+                  For this, we will use real recorded process data and assess it with regards to the metrics from the beginning of this section. 
+                  You can find the data here:</p>
+                  <div className="bg-blue-50 p-4 rounded-lg mt-6">
+                    <h4 className="font-semibold">How to determine the performance values:</h4>
+                    <p> The data represents the so-called step-response of our system. This enables us to calculate the values for our 4 metrics: </p>
+                    <ul className="list-disc pl-6 space-y-2 mt-2">
+                      <li>
+                        <strong>Rise Time:</strong> The time taken to first reach 90% of the final value from 10% of the final value.
+                      </li>
+                      <li>
+                        <strong>Settling Time:</strong> The time required for the system to settle within ±2% of the final value.
+                      </li>
+                      <li>
+                        <strong>Overshoot:</strong> The maximum peak value minus the final steady-state value, expressed as a percentage.
+                      </li>
+                      <li>
+                        <strong>steady-State Error:</strong> The difference between the final stable value and the desired setpoint.
+                      </li>
+                    </ul>
+                  </div>
+                  <p> You can open the CSV file in your favorite spreadsheet software (e.g. Excel) or follow along this Jupyter Notebook if you prefer doing it in Python.</p>
+                </div>
+
                 <h3 className="text-xl font-semibold mt-6">Basic Tuning Guidelines</h3>
                 <div className="bg-gray-50 p-4 rounded-lg">
                   <ol className="list-decimal pl-6 space-y-2">
@@ -566,7 +598,25 @@ const LearningPlatform = () => {
               </div>
 
               <button 
-                onClick={() => markSectionComplete('tuning')}
+                onClick={() => markSectionComplete('metrics')}
+                className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+              >
+                Mark Section Complete
+              </button>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="challenge">
+          <Card>
+            <CardHeader>
+              <CardTitle>Control Challenge</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="prose max-w-none">
+              </div>
+              <button 
+                onClick={() => markSectionComplete('challenge')}
                 className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
               >
                 Mark Section Complete
