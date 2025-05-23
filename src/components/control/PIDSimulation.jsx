@@ -15,12 +15,12 @@ import { Input } from "../ui/input";
 
 const PIDSimulation = () => {
   // Physical constants remain unchanged
-  const WATER_MASS = 1; // kg
+  const WATER_MASS = 100; // kg
   const WATER_SPECIFIC_HEAT = 4.186; // kJ/kg·°C
   const STEAM_TEMPERATURE = 80; // °C
-  const AMBIENT_TEMPERATURE = 0; // °C
+  const AMBIENT_TEMPERATURE = 25; // °C
   const MAX_STEAM_FLOW = 0.02; // kg/s - maximum steam flow rate
-  const HEAT_TRANSFER_COEFFICIENT = 0.5; // Heat loss coefficient to environment
+  const HEAT_TRANSFER_COEFFICIENT = 0.05; // Heat loss coefficient to environment
   const STEAM_LATENT_HEAT = 2257; // kJ/kg - latent heat of vaporization at 100°C
   const STEAM_SPECIFIC_HEAT = 2.08; // kJ/kg·°C - specific heat of steam
 
