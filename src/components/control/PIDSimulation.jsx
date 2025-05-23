@@ -213,7 +213,7 @@ const PIDSimulation = () => {
                   <Slider
                     className="flex-1"
                     value={[kp]}
-                    max={10}
+                    max={100}
                     step={0.1}
                     onValueChange={([value]) => setKp(value)}
                   />
@@ -223,7 +223,7 @@ const PIDSimulation = () => {
                     onChange={(e) => setKp(Number(e.target.value))}
                     className="w-20"
                     min={0}
-                    max={10}
+                    max={100}
                     step={0.1}
                   />
                 </div>
@@ -236,7 +236,7 @@ const PIDSimulation = () => {
                   <Slider
                     className="flex-1"
                     defaultValue={[ki]}
-                    max={1}
+                    max={10}
                     step={0.01}
                     onValueChange={([value]) => setKi(value)}
                   />
@@ -246,7 +246,7 @@ const PIDSimulation = () => {
                     onChange={(e) => setKi(Number(e.target.value))}
                     className="w-40"
                     min={0}
-                    max={1}
+                    max={10}
                     step={0.01}
                   />
                 </div>
@@ -259,7 +259,7 @@ const PIDSimulation = () => {
                   <Slider
                     className="flex-1"
                     defaultValue={[kd]}
-                    max={0.4}
+                    max={0.9}
                     step={0.01}
                     onValueChange={([value]) => setKd(value)}
                   />
@@ -269,7 +269,7 @@ const PIDSimulation = () => {
                     onChange={(e) => setKd(Number(e.target.value))}
                     className="w-40"
                     min={0}
-                    max={0.4}
+                    max={0.9}
                     step={0.01}
                   />
                 </div>
