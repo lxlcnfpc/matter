@@ -1,30 +1,13 @@
-import React from "react";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Link } from "react-router-dom";
-import {
-  Book,
-  Activity,
-  Settings,
-  Cpu,
-  Pickaxe,
-  ChartColumn,
-  Bot,
-  ChevronsLeftRightEllipsis,
-} from "lucide-react";
-import logoImage from "@/assets/lxl_logo.png";
+import React from 'react';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { Link } from 'react-router-dom';
+import { Book, Activity, Settings, Cpu, BarChart3 } from 'lucide-react';
+import logoImage from '@/assets/lxl_logo.png';
 
-const LessonCard = ({
-  title,
-  description,
-  icon: Icon,
-  path,
-  comingSoon = false,
-}) => (
-  <Link
-    to={comingSoon ? "#" : path}
-    className={`block transition-transform hover:scale-105 ${
-      comingSoon ? "cursor-not-allowed opacity-70" : ""
-    }`}
+const LessonCard = ({ title, description, icon: Icon, path, comingSoon = false }) => (
+  <Link 
+    to={comingSoon ? '#' : path}
+    className={`block transition-transform hover:scale-105 ${comingSoon ? 'cursor-not-allowed opacity-70' : ''}`}
   >
     <Card className="h-full bg-white/90 backdrop-blur-sm hover:bg-white/95 transition-all">
       <CardHeader>
@@ -49,53 +32,53 @@ const HomePage = () => {
   const lessons = [
     {
       title: "Control Theory & PID",
-      description:
-        "Learn about control systems, PID controllers, and tune your own system with our interactive simulator.",
+      description: "Learn about control systems, PID controllers, and tune your own system with our interactive simulator.",
       icon: Settings,
-      path: "/control-theory",
+      path: "/control-theory"
     },
     {
-      title: "Industrial Data Mining",
-      description: "Discover knowledge in databases with statistics and AI.",
-      icon: Pickaxe,
+      title: "Descriptive Statistics",
+      description: "Explore location, dispersion, and distribution with an interactive manufacturing quality control example.",
+      icon: BarChart3,
+      path: "/statistics"
+    },
+    {
+      title: "Digital Logic",
+      description: "Explore boolean algebra, logic gates, and digital circuit design with hands-on exercises.",
+      icon: Cpu,
       path: "/digital-logic",
-      comingSoon: true,
+      comingSoon: true
     },
     {
-      title: "Design of Experiments",
-      description:
-        "Design and execute powerful experiments to understand what factors contribute the most to product quality.",
-      icon: ChartColumn,
+      title: "Signal Processing",
+      description: "Understand signals, filtering, and frequency analysis through interactive demonstrations.",
+      icon: Activity,
       path: "/signal-processing",
-      comingSoon: true,
+      comingSoon: true
     },
     {
-      title: "Industrial Robotics",
-      description:
-        "Get to know the basics of employing robots in a production environment.",
-      icon: Bot,
+      title: "Machine Learning Basics",
+      description: "Get started with fundamental ML concepts and algorithms through visual examples.",
+      icon: Book,
       path: "/ml-basics",
-      comingSoon: true,
-    },
-    {
-      title: "IO-Link",
-      description:
-        "Explore the possibilities of this useful communication interface for industrial applications.",
-      icon: ChevronsLeftRightEllipsis,
-      path: "/ml-basics",
-      comingSoon: true,
-    },
+      comingSoon: true
+    }
   ];
 
   return (
-    <div className="min-h-screen bg-cover bg-center bg-fixed">
+    <div 
+      className="min-h-screen bg-cover bg-center bg-fixed"
+      style={{ 
+        backgroundImage: 'url("/bg-pattern.png")',
+      }}
+    >
       {/* Semi-transparent overlay */}
       <div className="min-h-screen bg-white/40 backdrop-blur-sm py-8 px-4">
         {/* Logo and Header Section */}
         <div className="container mx-auto text-center mb-12">
-          <img
-            src={logoImage}
-            alt="LxL Logo"
+          <img 
+            src={logoImage} 
+            alt="LxL Logo" 
             className="mx-auto mb-6 h-24 w-auto"
           />
           <h1 className="text-4xl font-bold mb-4 text-gray-800">
@@ -117,9 +100,7 @@ const HomePage = () => {
 
         {/* Footer */}
         <footer className="container mx-auto mt-12 text-center text-gray-600">
-          <p>
-            New lessons are added regularly. Check back soon for more content!
-          </p>
+          <p>New lessons are added regularly. Check back soon for more content!</p>
         </footer>
       </div>
     </div>
