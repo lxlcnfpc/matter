@@ -171,8 +171,8 @@ const StatisticsLesson = () => {
       };
       
       const layout = {
-        title: 'Distribution of Bolt Diameters with Standard Deviation Ranges',
-        xaxis: { title: 'Diameter (mm)', range: [80, 120] },
+        title: 'Distribution of Bolt Lengths with Standard Deviation Ranges',
+        xaxis: { title: 'Length (mm)', range: [80, 120] },
         yaxis: { title: 'Frequency' },
         showlegend: true,
         height: 500,
@@ -196,7 +196,7 @@ const StatisticsLesson = () => {
       };
       
       Plotly.newPlot(processARef.current, [traceA], {
-        xaxis: { title: 'Diameter (mm)', range: [90, 110] },
+        xaxis: { title: 'Length (mm)', range: [90, 110] },
         yaxis: { title: 'Frequency' },
         height: 250,
         margin: { t: 20, b: 40 },
@@ -214,7 +214,7 @@ const StatisticsLesson = () => {
       };
       
       Plotly.newPlot(processBRef.current, [traceB], {
-        xaxis: { title: 'Diameter (mm)', range: [90, 110] },
+        xaxis: { title: 'Length (mm)', range: [90, 110] },
         yaxis: { title: 'Frequency' },
         height: 250,
         margin: { t: 20, b: 40 },
@@ -233,7 +233,7 @@ const StatisticsLesson = () => {
   };
 
   const downloadCSV = () => {
-    let csv = 'Index,Diameter (mm),Status,Deviation from Target\n';
+    let csv = 'Index,Length (mm),Status,Deviation from Target\n';
     const LSL = 95;
     const USL = 105;
     const target = 100;
@@ -249,7 +249,7 @@ const StatisticsLesson = () => {
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'bolt_diameter_data.csv';
+    a.download = 'bolt_Length_data.csv';
     a.click();
     window.URL.revokeObjectURL(url);
   };
@@ -464,7 +464,7 @@ const StatisticsLesson = () => {
                         <thead className="bg-gray-100 sticky top-0">
                           <tr>
                             <th className="border p-2">Index</th>
-                            <th className="border p-2">Diameter (mm)</th>
+                            <th className="border p-2">Length (mm)</th>
                             <th className="border p-2">Status</th>
                             <th className="border p-2">Deviation from Target</th>
                           </tr>

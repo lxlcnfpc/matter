@@ -892,12 +892,12 @@ const ZScoreCLT = () => {
                   Not Capable<br/>
                   <span className="text-red-700">(We are here: 0.417)</span>
                 </div>
-                <div className="bg-yellow-100 p-2 rounded border-2 border-yellow-300">
+                <div className="bg-orange-100 p-2 rounded border-2 border-orange-300">
                   <strong>Cpk = 1.0</strong><br/>
                   Barely Capable<br/>
                   ~2,700 ppm defects
                 </div>
-                <div className="bg-blue-100 p-2 rounded border-2 border-blue-300">
+                <div className="bg-yellow-100 p-2 rounded border-2 border-yellow-300">
                   <strong>Cpk = 1.33</strong><br/>
                   Good Process<br/>
                   ~63 ppm defects
