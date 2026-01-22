@@ -37,8 +37,8 @@ const HomePage = () => {
       path: "/control-theory"
     },
     {
-      title: "Descriptive Statistics",
-      description: "Explore location, dispersion, and distribution with an interactive manufacturing quality control example.",
+      title: "Basic Statistics",
+      description: "Explore data with an interactive manufacturing quality control example.",
       icon: BarChart3,
       path: "/statistics"
     },

@@ -267,7 +267,7 @@ const StatisticsLesson = () => {
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-3xl">Descriptive Statistics</CardTitle>
+          <CardTitle className="text-3xl">Basic Statistics</CardTitle>
           <p className="text-gray-600 mt-2">Learn about distributions, Z-scores, and the Central Limit Theorem</p>
         </CardHeader>
       </Card>
